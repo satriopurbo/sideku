@@ -38,12 +38,10 @@ class Controller{
             },attributes: ['password']
         })
         .then(data=>{
-            console.log(data[0].dataValues)
             if(data.length){
-
-        let hasil =  bcrypt.compare(password, data[0].password);
+        let hasil =  bcrypt.compare(password, data[0].dataValues.password);
                 if(hasil){
-                    res.json({message :"berhasil login",token : jwt.generateToken(data[0])})
+                    res.json({token : jwt.generateToken(data[0].dataValues)})
                 }
                 else{
                     res.json({message : "password salah"})
