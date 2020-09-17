@@ -1,4 +1,4 @@
-const poolFotoIjasah = require('../model/poolFotoIjasah')
+const poolFotoWajah = require('../model/poolFotoWajahModel')
 
 
 
@@ -6,7 +6,7 @@ class Controller{
 
     static register(req, res){
         const {namaFile,emosi,pasienId}= req.body
-        poolFotoIjasah.findAll({
+        poolFotoWajah.findAll({
             where:{
                 namaFile:namaFile
             }
@@ -15,7 +15,7 @@ class Controller{
                 res.json({message:'data sudah ada'})
             }
             else{
-                poolFotoIjasah.create({namaFile:namaFile,emosi:emosi,pasienId:pasienId}, {returning: true}).then(respon =>{
+                poolFotoWajah.create({namaFile:namaFile,emosi:emosi,pasienId:pasienId}, {returning: true}).then(respon =>{
                     res.json(respon)
                  })
                  .catch(err=>{
@@ -28,7 +28,7 @@ class Controller{
     
     static list(req,res){
         const{id}=req.params
-        poolFotoIjasah.findAll({
+        poolFotoWajah.findAll({
             where:{
                 id :id
             }
@@ -45,7 +45,7 @@ class Controller{
         const {id}=req.params
         const {namaFile,emosi}= req.body
         
-        poolFotoIjasah.update({
+        poolFotoWajah.update({
             namaFile:namaFile,
             emosi : emosi
         },{
@@ -64,7 +64,7 @@ class Controller{
 
     static delete(req,res){
         const{id}= req.params
-        poolFotoIjasah.destroy({
+        poolFotoWajah.destroy({
             where : {
                 id: id
             }

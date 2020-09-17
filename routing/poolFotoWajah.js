@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const controller = require('../controller/poolFotoIjasahController')
+const controller = require('../controller/poolFotoWajahController')
 
 router.get('/:id',controller.list)
 router.post('/register', controller.register)
