@@ -4,7 +4,7 @@ module.exports = (err, req, res, next) => {
     switch(err.name){
       case 'JsonWebTokenError':
         status = 400
-        message = err.message
+        message = ("silahkan Login Terlebih dahulu")
         break;
       default: 
         status = err.status || 500
