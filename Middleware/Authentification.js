@@ -3,10 +3,15 @@ const User = require('../model/usermodel')
 
 function authentification(req,res,next){
  const decode = verifyToken(req.headers.accesstoken)
-    
-    User.checkUser(decode.name)
+ 
+    User.findAll({
+        where:{
+            password:decode.password
+        }
+    })
     .then(data=>{
-        if(data){   
+        if(data){
+              
             req.user=decode   
             next()
         }
@@ -15,7 +20,7 @@ function authentification(req,res,next){
         }
     })
     .catch(err=>{
-        res.json({message:err})
+        res.json(err)
         
     })
 }
