@@ -2,6 +2,7 @@ const {verifyToken} = require('../helper/jwt')
 const User = require('../model/usermodel')
 
 function authentification(req,res,next){
+    
  const decode = verifyToken(req.headers.accesstoken)
  
     User.findAll({
@@ -10,9 +11,7 @@ function authentification(req,res,next){
         }
     })
     .then(data=>{
-        if(data){
-              
-            req.user=decode   
+        if(data){ 
             next()
         }
         else{
