@@ -1,5 +1,5 @@
 const poolFotoWajah = require('../model/poolFotoWajahModel')
-
+const Pasien = require('../model/pasienModel')
 
 
 class Controller{
@@ -32,7 +32,22 @@ class Controller{
             where:{
                 id :id
             }
-        },{returning:true})
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static all(req,res){
+    
+        poolFotoWajah.findAll({
+            sort:[['id','ASC']],
+            include:Pasien
+            
+        })
         .then(respon=>{
             res.json({respon})
         })

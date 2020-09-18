@@ -1,4 +1,7 @@
 const poolGejalaPsikis = require('../model/poolGejalaPsikis')
+const pasien = require('../model/pasienModel')
+const gejalaPsikis = require('../model/gejalaPsikisModel')
+
 
 
 
@@ -13,6 +16,21 @@ class Controller{
             res.json(err.stack)
         })
       }
+      static all(req,res){
+        poolGejalaPsikis.findAll({
+            order:[['id', 'ASC']],
+            include:[gejalaPsikis,pasien]
+            
+            
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+    
     
     static list(req,res){
         const{id}=req.params

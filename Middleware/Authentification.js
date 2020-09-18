@@ -2,7 +2,7 @@ const {verifyToken} = require('../helper/jwt')
 const User = require('../model/usermodel')
 
 function authentification(req,res,next){
-    console.log(req.headers,'<<<<<<<<')
+    
     
  const decode = verifyToken(req.headers.accesstoken)
    User.findAll({

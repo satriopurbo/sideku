@@ -1,12 +1,13 @@
 const poolPernyataan = require('../model/poolPernyataanModel')
-
+const Pasien = require('../model/pasienModel')
+const Pernyataan = require('../model/pernyataanModel')
 
 
 class Controller{
 
     static register(req, res){
-        const {status,pasienId,PernyataanId}= req.body
-         poolPernyataan.create({status:status,pasienId:pasienId,PernyataanId:PernyataanId}, {returning: true}).then(respon =>{
+        const {status,pasienId,pernyataanId}= req.body
+         poolPernyataan.create({status:status,pasienId:pasienId,pernyataanId:pernyataanId}, {returning: true}).then(respon =>{
            res.json(respon)
         })
         .catch(err=>{
@@ -21,7 +22,21 @@ class Controller{
             where:{
                 id :id
             }
-        },{returning:true})
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static all(req,res){
+        
+        poolPernyataan.findAll({
+            sort:[['id','ASC']],
+            include:[Pasien,Pernyataan]
+        })
         .then(respon=>{
             res.json({respon})
         })
