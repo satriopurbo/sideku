@@ -1,5 +1,15 @@
 const pasienModel = require('../model/pasienModel')
-
+const penyakit = require('../model/penyakitModel')
+const poolPenyakit = require('../model/poolPenyakit')
+const gejalaFisik = require('../model/gejalaFisikModel')
+const poolGejalaFisik = require('../model/poolGejalaFisik')
+const gejalaPerilaku = require('../model/gejalaPerilakuBurukM')
+const poolGejalaPerilaku = require('../model/poolGejalaPerilakuM')
+const poolFotoWajah = require('../model/poolFotoWajahModel')
+const gejalaPsikis = require('../model/gejalaPsikisModel')
+const poolGejalaPsikis = require('../model/poolGejalaPsikis')
+const poolPernyataan = require('../model/poolPernyataanModel')
+const pernyataan = require('../model/pernyataanModel')
 
 
 class Controller{
@@ -20,6 +30,27 @@ class Controller{
             where:{
                 id :id
             }
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static details(req,res){
+        const{id}=req.params
+        pasienModel.findAll({
+            where:{
+                id :id
+            },
+            include:[{model:poolPenyakit,include:[penyakit]},
+                    {model:poolFotoWajah},
+                    {model:poolGejalaFisik,include:[gejalaFisik]},
+                    {model:poolGejalaPerilaku,include:[gejalaPerilaku]},
+                    {model:poolGejalaPsikis,include:[gejalaPsikis]},
+                    {model:poolPernyataan,include:[pernyataan]}]
         })
         .then(respon=>{
             res.json({respon})
