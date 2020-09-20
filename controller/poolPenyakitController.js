@@ -1,4 +1,6 @@
 const poolPenyakit = require('../model/poolPenyakit')
+const Pasien = require('../model/pasienModel')
+const Penyakit = require('../model/penyakitModel')
 
 
 class Controller{
@@ -19,7 +21,21 @@ class Controller{
             where:{
                 id :id
             }
-        },{returning:true})
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static all(req,res){
+        
+        poolPenyakit.findAll({
+            sort:[['id','ASC']],
+            include:[Pasien,Penyakit]
+        })
         .then(respon=>{
             res.json({respon})
         })

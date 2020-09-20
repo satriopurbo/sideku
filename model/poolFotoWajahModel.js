@@ -4,7 +4,7 @@ const Pasien = require('./pasienModel')
 
 
 
-const PoolFotoIjasah = sq.define('poolFotoIjasah',{
+const poolFotoWajah = sq.define('poolFotoWajah',{
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -20,8 +20,8 @@ const PoolFotoIjasah = sq.define('poolFotoIjasah',{
    }
 },
 );
-PoolFotoIjasah.belongsTo(Pasien)
-Pasien.hasMany(PoolFotoIjasah)
+poolFotoWajah.belongsTo(Pasien)
+Pasien.hasMany(poolFotoWajah)
 
-PoolFotoIjasah.sync({ alter: true })
-module.exports = PoolFotoIjasah
+poolFotoWajah.sync({ alter: true })
+module.exports = poolFotoWajah

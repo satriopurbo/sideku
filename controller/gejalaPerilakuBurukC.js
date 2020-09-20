@@ -40,6 +40,18 @@ class Controller{
             res.json(err)
         })
     }
+    static all(req,res){
+    
+        gejalaPerilakuBuruk.findAll({
+            sort:[['id','ASC']]
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
     
     static update(req,res){
         const {id}=req.params
