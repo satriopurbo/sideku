@@ -63,10 +63,12 @@ class Controller{
         },{
             where :{
                 id:id
-            }
-        },{returning: true})
+            },
+            returning: true,
+            plain:true
+        })
         .then(respon=>{
-            res.json(`data dengan id ${respon} telah berhasil dirubah`)
+            res.json(respon)
         })
         .catch(err=>{
             res.json(err)
