@@ -15,8 +15,7 @@ const pernyataan = require('../model/pernyataanModel')
 class Controller{
 
     static register(req, res){
-        const {nama,umur,tempatLahir,alamat,pekerjaan}= req.body
-         pasienModel.create({nama:nama, umur:umur, tempatLahir : tempatLahir, alamat:alamat,pekerjaan:pekerjaan}, {returning: true}).then(respon =>{
+         pasienModel.create(req.body, {returning: true}).then(respon =>{
            res.json(respon)
         })
         .catch(err=>{

@@ -8,11 +8,11 @@ const Pasien = sq.define('pasien',{
         autoIncrement: true
     },
     nama:{
-         type:DataTypes.STRING,
+        type:DataTypes.STRING,
          defaultValue:''
     },
-    umur:{
-        type:DataTypes.INTEGER,
+    tanggalLahir:{
+        type:DataTypes.DATE,
         defaultValue:0
     },
    tempatLahir:{
