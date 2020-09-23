@@ -1,11 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const routing = require('./routing/index')
-<<<<<<< HEAD
-const cors = require('cors')
-=======
 const errorHandler = require('./Middleware/errorHandler')
->>>>>>> e83c4782ca6ff0b55f92c19942e503a3fbe23dec
 const app = express()
 const cors=require('cors')
 
