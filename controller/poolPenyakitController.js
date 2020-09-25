@@ -1,6 +1,7 @@
 const poolPenyakit = require('../model/poolPenyakit')
 const Pasien = require('../model/pasienModel')
 const Penyakit = require('../model/penyakitModel')
+const penyakit = require('../model/penyakitModel')
 
 
 class Controller{
@@ -29,6 +30,8 @@ class Controller{
             res.json(err)
         })
     }
+
+    
 
     static all(req,res){
         
