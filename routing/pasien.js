@@ -8,5 +8,6 @@ router.get('/:id',authentification,controller.list)
 router.post('/register',authentification, controller.register)
 router.delete('/delete/:id',authentification,controller.delete)
 router.patch('/:id',authentification,controller.update)
+router.post('/screening',authentification,controller.screening)
 
 module.exports=router
