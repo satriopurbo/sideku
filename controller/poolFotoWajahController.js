@@ -40,6 +40,21 @@ class Controller{
             res.json(err)
         })
     }
+    static findByPasien(req,res){
+        const{id}=req.params
+        poolFotoWajah.findAll({
+            include:Pasien,
+            where:{
+                pasienId :id
+            }
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
 
     static all(req,res){
     
