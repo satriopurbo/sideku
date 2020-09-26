@@ -11,7 +11,7 @@ const poolPernyataan = sq.define('poolPernyataan',{
     },
     status:{
          type:DataTypes.INTEGER,
-         defaultValue:0
+         defaultValue:1
     },
 })
 
