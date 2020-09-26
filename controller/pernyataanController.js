@@ -1,5 +1,5 @@
 const pernyataan = require('../model/pernyataanModel')
-
+const poolPernyataan = require('../model/poolPernyataanModel')
 
 
 class Controller{
@@ -73,6 +73,25 @@ class Controller{
         }).then(respon=>{
             res.json(`berhasil delete id : ${id}`)
             
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+    static history(req,res){
+        const{id}=req.params
+        pernyataan.findAll(
+        { 
+            include:[{model:poolPernyataan,
+                required:false,
+            where:{
+                pasienId:id,
+                
+            }}]
+            
+        })
+        .then(respon=>{
+            res.json({respon})
         })
         .catch(err=>{
             res.json(err)

@@ -1,4 +1,5 @@
 const penyakit = require('../model/penyakitModel')
+const poolPenyakit = require('../model/poolPenyakit')
 
 
 
@@ -75,6 +76,25 @@ class Controller{
             res.json(err)
         })
 
+    }
+    static history(req,res){
+        const{id}=req.params
+        penyakit.findAll(
+        { 
+            include:[{model:poolPenyakit,
+                required:false,
+            where:{
+                pasienId:id,
+                
+            }}]
+            
+        })
+        .then(respon=>{
+            res.json({respon})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
     }
 
     static delete(req,res){

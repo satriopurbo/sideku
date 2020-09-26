@@ -1,4 +1,5 @@
 const gejalaFisik = require('../model/gejalaFisikModel')
+const poolGejalaFisik = require('../model/poolGejalaFisik')
 
 
 
@@ -85,6 +86,26 @@ class Controller{
         }).then(respon=>{
             res.json(`berhasil delete id : ${id}`)
             
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static history(req,res){
+        const{id}=req.params
+        gejalaFisik.findAll(
+        { 
+            include:[{model:poolGejalaFisik,
+                required:false,
+            where:{
+                pasienId:id,
+                
+            }}]
+            
+        })
+        .then(respon=>{
+            res.json({respon})
         })
         .catch(err=>{
             res.json(err)
