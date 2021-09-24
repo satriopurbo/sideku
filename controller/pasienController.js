@@ -10,16 +10,52 @@ const gejalaPsikis = require('../model/gejalaPsikisModel')
 const poolGejalaPsikis = require('../model/poolGejalaPsikis')
 const poolPernyataan = require('../model/poolPernyataanModel')
 const pernyataan = require('../model/pernyataanModel')
+const bcrypt = require('../helper/bcrypt')
+
+// async function isiUsername(){
+//     let encryptedPassword = bcrypt.hashPassword('fosan')
+//     for(let i=0;i<2660;i++){
+//         pasienModel.findAll({where:{
+//             id:i
+//         }})
+//         .then(hasil=>{
+//             if(hasil.length){
+//                 pasienModel.update({
+//                     username:`side${i}`,
+//                     password:encryptedPassword
+//                 },{
+//                     where:{
+//                         id:i
+//                     }
+//                 })
+//             }
+//         })
+//         .catch(err=>{
+//            console.log(err)
+//         })
+//     }
+// }
+// isiUsername()
 
 
 class Controller{
 
     static register(req, res){
-         pasienModel.create(req.body, {returning: true}).then(respon =>{
-           res.json(respon)
-        })
-        .catch(err=>{
-            res.json(err)
+        const {username,password,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien}=req.body
+        let encryptedPassword = bcrypt.hashPassword(password)
+        pasienModel.findAll({where:{
+            username:username
+        }})
+        .then(hasil=>{
+           if(hasil){
+               res.json({message:"username sudah terdaftar"})
+           }
+           else{
+               pasienModel.create({username,password:encryptedPassword,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien})
+               .then(hasil2=>{
+                res.json({message:"sukses"})
+               })
+           }
         })
       }
     
