@@ -26,7 +26,7 @@ class Controller{
         
       }
     
-    static list(req,res){
+    static detailsById(req,res){
         const{id}=req.params
         ODGJ.findAll({
             where:{

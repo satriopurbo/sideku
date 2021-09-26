@@ -42,6 +42,10 @@ const Pasien = sq.define('pasien',{
     },
     penanggungJawabPasien:{
         type:DataTypes.STRING
+    },
+    role:{
+        type:DataTypes.STRING,
+        defaultValue:"Pasien"
     }
 })
 

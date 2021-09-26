@@ -8,20 +8,20 @@ const ODGJ = require('../model/ODGJModel')
 class Controller{
 
     /*
-    bulk:{
+    {"bulk":
         [
            { 
-            pasienId:13,
-            ODGJId:1,
-            status:2
+            "pasienId":2655,
+            "ODGJId":1,
+            "status":1
             },
             { 
-            pasienId:13,
-            ODGJId:2,
-            status:3
+            "pasienId":2655,
+            "ODGJId":2,
+            "status":3
             }
         ]
-    }
+}
     */
 
     static bulkODGJ(req,res){
