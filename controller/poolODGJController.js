@@ -8,7 +8,9 @@ const ODGJ = require('../model/ODGJModel')
 class Controller{
 
     static bulkODGJ(req,res){
-        
+        poolODGJ.destroy({where:{
+            pasienId:req.dataUsers.id
+        }})
     }
 
     static register(req, res){

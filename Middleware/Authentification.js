@@ -7,11 +7,13 @@ function authentification(req,res,next){
  const decode = verifyToken(req.headers.accesstoken)
    User.findAll({
         where:{
+            id : decode.id,
             password:decode.password
         }
     })
     .then(data=>{
-        if(data){ 
+        if(data.length>0){
+            req.dataUsers=decode 
             next()
         }
         else{

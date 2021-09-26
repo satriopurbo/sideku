@@ -71,7 +71,7 @@ class Controller{
             if(data.length){
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
                 if(hasil){
-                    res.json({token : jwt.generateToken(data[0].dataValues)})
+                    res.json({token : jwt.generateToken(data[0].dataValues),id:data[0].id})
                 }
                 else{
                     res.json({message : "password salah"})
@@ -135,14 +135,10 @@ class Controller{
     
     static update(req,res){
         const {id}=req.params
-        const {nama,umur,tempatLahir,alamat,pekerjaan}= req.body
+        const {nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien}= req.body
         
         pasienModel.update({
-            nama:nama,
-            umur:umur,
-            tempatLahir : tempatLahir, 
-            alamat:alamat,
-            pekerjaan:pekerjaan
+            nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien
         },{
             where :{
                 id:id
