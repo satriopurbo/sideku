@@ -10,6 +10,7 @@ const gejalaPsikis = require('../model/gejalaPsikisModel')
 const poolGejalaPsikis = require('../model/poolGejalaPsikis')
 const poolPernyataan = require('../model/poolPernyataanModel')
 const pernyataan = require('../model/pernyataanModel')
+const poolODGJ= require('../model/poolODGJModel')
 const bcrypt = require('../helper/bcrypt')
 const jwt = require('../helper/jwt')
 // async function isiUsername(){
@@ -54,7 +55,10 @@ class Controller{
            else{
                pasienModel.create({username,password:encryptedPassword,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien})
                .then(hasil2=>{
-                res.json({message:"sukses"})
+                poolODGJ.create({pasienId:hasil2.dataValues.id})
+                .then(hasil3=>{
+                    res.json({message:"sukses"})
+                })
                })
            }
         })

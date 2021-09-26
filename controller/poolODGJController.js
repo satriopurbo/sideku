@@ -1,118 +1,62 @@
 const poolODGJ = require('../model/poolODGJModel')
-const pasien = require('../model/pasienModel')
-const ODGJ = require('../model/ODGJModel')
+const pasienModel= require('../model/pasienModel')
+
+// async function isipool(){
+  
+//     for(let i=0;i<2860;i++){
+//         pasienModel.findAll({where:{
+//             id:i
+//         }})
+//         .then(hasil=>{
+//             if(hasil.length){
+//                 poolODGJ.create({
+//                     pasienId:i
+//                 })
+//             }
+//         })
+//         .catch(err=>{
+//            console.log(err)
+//         })
+//     }
+// }
+// isipool()
 
 
 
 
 class Controller{
 
-    /*
-    {"bulk":
-        [
-           { 
-            "pasienId":2655,
-            "ODGJId":1,
-            "status":1
-            },
-            { 
-            "pasienId":2655,
-            "ODGJId":2,
-            "status":3
-            }
-        ]
-}
-    */
+    static registerUpdate(req, res){
+        const {soal1,soal2,soal3,soal4,soal5,soal6,soal7,soal8,soal9,soal10,soal11,soal12,soal13,soal14,soal15,soal16,soal17,soal18,soal19,soal20}= req.body
 
-    static bulkODGJ(req,res){
-        const{bulk}= req.body
-        poolODGJ.destroy({where:{
-            pasienId:req.dataUsers.id
-        }})
-        .then(data=>{
-            poolODGJ.bulkCreate(bulk)
-            .then(data2=>{
-                res.json({message:"sukses"})
-            })
-        })
-    }
-
-    static register(req, res){
-        const {status,pasienId,ODGJId}= req.body
-         poolODGJ.create({status:status,pasienId:pasienId,ODGJId:ODGJId}, {returning: true}).then(respon =>{
-           res.json(respon)
+         poolODGJ.update({soal1,soal2,soal3,soal4,soal5,soal6,soal7,soal8,soal9,soal10,soal11,soal12,soal13,soal14,soal15,soal16,soal17,soal18,soal19,soal20}, 
+            {
+                where:{
+                        pasienId:pasienId
+         }})
+         .then(respon =>{
+           res.json({message:"sukses"})
         })
         .catch(err=>{
-            res.json(err.stack)
+            res.json({message:err})
         })
       }
-      static all(req,res){
-        poolODGJ.findAll({
-            order:[['id', 'ASC']],
-            include:[ODGJ,pasien]
-            
-            
-        })
-        .then(respon=>{
-            res.json({respon})
-        })
-        .catch(err=>{
-            res.json(err)
-        })
-    }
-    
-    
-    static list(req,res){
-        const{id}=req.params
-        poolODGJ.findAll({
-            where:{
-                id :id
-            }
-        },{returning:true})
-        .then(respon=>{
-            res.json({respon})
-        })
-        .catch(err=>{
-            res.json(err)
-        })
-    }
-    
-    static update(req,res){
-        const {id}=req.params
-        const {status}= req.body
-        
-        poolODGJ.update({
-            status:status
-        },{
-            where :{
-                id:id
-            },
-            returning: true,
-            plain:true
-        })
-        .then(respon=>{
-            res.json(respon)
-        })
-        .catch(err=>{
-            res.json(err)
-        })
 
-    }
 
-    static delete(req,res){
-        const{id}= req.params
-        poolODGJ.destroy({
-            where : {
-                pasienId: id
-            }
-        }).then(respon=>{
-            res.json(`berhasil delete id : ${id}`)
-            
+      static listByPasienId(req,res){
+        poolODGJ.findAll({where:{
+            pasienId:pasienId
+        }})
+        .then(data=>{
+            res.json({data:data})
         })
         .catch(err=>{
-            res.json(err)
+            res.json({message:err})
         })
     }
+    
+    
+
 
 }
 
