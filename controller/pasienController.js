@@ -47,7 +47,8 @@ class Controller{
             username:username
         }})
         .then(hasil=>{
-           if(hasil){
+            
+           if(hasil.length){
                res.json({message:"username sudah terdaftar"})
            }
            else{
@@ -154,6 +155,38 @@ class Controller{
         })
 
     }
+
+    static changePassword(req, res) {
+        const { passwordLama, passwordBaru } = req.body;
+        pasienModel
+          .findAll({
+            where: {
+              id: req.dataUsers.id,
+            },
+          })
+          .then((data) => {
+            let hasil = bcrypt.compare(passwordLama, data[0].dataValues.password);
+            if (hasil) {
+              let encryptedPassword = bcrypt.hashPassword(passwordBaru);
+              pasienModel
+                .update({ password: encryptedPassword },
+                  {
+                    where: {
+                      id: req.dataUsers.id,
+                    },
+                  }
+                )
+                .then((data2) => {
+                    res.status(200).json({ status: 200, message: "password berhasil di rubah"})
+                });
+            } else {
+                res.status(200).json({ status: 200, message: "password salah"})
+            }
+          })
+          .catch((err) => {
+            res.status(500).json({ status: 500, message: "gagal", data: err})
+          });
+      }
 
     static delete(req,res){
         const{id}= req.params
