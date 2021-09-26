@@ -58,6 +58,31 @@ class Controller{
            }
         })
       }
+
+      static login(req,res){
+        const{username,password}= req.body
+
+        pasienModel.findAll({
+            where:{
+                username:username
+            },attributes: ['password']
+        })
+        .then(data=>{
+            if(data.length){
+        let hasil =  bcrypt.compare(password, data[0].dataValues.password);
+                if(hasil){
+                    res.json({token : jwt.generateToken(data[0].dataValues)})
+                }
+                else{
+                    res.json({message : "password salah"})
+                }
+            }
+            else{res.json({message :"username tidak terdaftar"})}
+        })
+        .catch(err=>{
+            res.json({message : err})
+        })
+    }
     
     static list(req,res){
         const{id}=req.params
