@@ -44,6 +44,7 @@ class Controller{
 
 
       static listByPasienId(req,res){
+        const {pasienId}= req.params
         poolODGJ.findAll({where:{
             pasienId:pasienId
         }})
