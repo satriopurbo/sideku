@@ -12,6 +12,7 @@ const gejalaPerilakuBuruk = require('./gejalaPerilakuBuruk')
 const poolGejalaPerilaku= require('./poolgejalaPerilaku')
 const pernyataan = require('./pernyataan')
 const poolPernyataan = require('./poolPernyataan')
+const poolODGJ = require('./poolODGJ')
 
 
 router.use('/user',user)
@@ -27,6 +28,7 @@ router.use('/gejalaPerilakuBuruk',gejalaPerilakuBuruk)
 router.use('/poolGejalaPerilaku',poolGejalaPerilaku)
 router.use('/pernyataan',pernyataan)
 router.use('/poolPernyataan',poolPernyataan)
+router.use('/poolODGJ',poolODGJ)
 
 router.get('/', (req, res)=>{
     res.send('halaman home')

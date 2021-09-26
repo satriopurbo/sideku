@@ -7,10 +7,34 @@ const ODGJ = require('../model/ODGJModel')
 
 class Controller{
 
+    /*
+    bulk:{
+        [
+           { 
+            pasienId:13,
+            ODGJId:1,
+            status:2
+            },
+            { 
+            pasienId:13,
+            ODGJId:2,
+            status:3
+            }
+        ]
+    }
+    */
+
     static bulkODGJ(req,res){
+        const{bulk}= req.body
         poolODGJ.destroy({where:{
             pasienId:req.dataUsers.id
         }})
+        .then(data=>{
+            poolODGJ.bulkCreate(bulk)
+            .then(data2=>{
+                res.json({message:"sukses"})
+            })
+        })
     }
 
     static register(req, res){
