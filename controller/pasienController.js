@@ -11,7 +11,7 @@ const poolGejalaPsikis = require('../model/poolGejalaPsikis')
 const poolPernyataan = require('../model/poolPernyataanModel')
 const pernyataan = require('../model/pernyataanModel')
 const bcrypt = require('../helper/bcrypt')
-
+const jwt = require('../helper/jwt')
 // async function isiUsername(){
 //     let encryptedPassword = bcrypt.hashPassword('fosan')
 //     for(let i=0;i<2660;i++){
@@ -66,10 +66,11 @@ class Controller{
         pasienModel.findAll({
             where:{
                 username:username
-            },attributes: ['password']
+            }
         })
         .then(data=>{
             if(data.length){
+            
         let hasil =  bcrypt.compare(password, data[0].dataValues.password);
                 if(hasil){
                     res.json({token : jwt.generateToken(data[0].dataValues),id:data[0].id})
