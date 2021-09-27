@@ -10,6 +10,10 @@ app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cors())
+app.set('views', __dirname + '/views');
+
+app.set('view engine', 'ejs');
+
 
 app.use('/', routing)
 app.use(errorHandler)

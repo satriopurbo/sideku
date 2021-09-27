@@ -12,6 +12,9 @@ const penyakit = sq.define('Penyakit',{
          defaultValue:''
     }
 },
+{
+    paranoid: true
+}
 );
 
 penyakit.sync({ alter: true })

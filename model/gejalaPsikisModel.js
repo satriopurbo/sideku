@@ -12,6 +12,9 @@ const gejalaPsikis = sq.define('GejalaPsikis',{
          defaultValue:''
     }
 },
+{
+    paranoid: true
+}
 );
 
 gejalaPsikis.sync({ alter: true })

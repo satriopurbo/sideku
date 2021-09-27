@@ -16,17 +16,20 @@ const Pasien = sq.define('pasien',{
         defaultValue:0
     },
    tempatLahir:{
-    type:DataTypes.STRING,
-    defaultValue:''
+        type:DataTypes.STRING,
+        defaultValue:''
     },
     alamat:{
         type:DataTypes.STRING,
         defaultValue:''
     },
    pekerjaan:{
-    type:DataTypes.STRING,
-    defaultValue:''
+        type:DataTypes.STRING,
+        defaultValue:''
     },
+},
+{
+    paranoid: true
 })
 
 Pasien.sync({ alter: true })

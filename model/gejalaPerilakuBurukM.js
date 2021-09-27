@@ -12,6 +12,9 @@ const gejalaPerilakuBuruk  = sq.define('GejalaPerilakuBuruk',{
          defaultValue:''
     }
 },
+{
+    paranoid: true
+}
 );
 
 gejalaPerilakuBuruk.sync({ alter: true })

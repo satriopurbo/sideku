@@ -10,9 +10,65 @@ const gejalaPsikis = require('../model/gejalaPsikisModel')
 const poolGejalaPsikis = require('../model/poolGejalaPsikis')
 const poolPernyataan = require('../model/poolPernyataanModel')
 const pernyataan = require('../model/pernyataanModel')
+var {Op} = require('sequelize');
 
 
 class Controller{
+
+
+    static print(req,res){
+        let c = req.query.b - req.query.a
+        console.log(c)
+
+        pasienModel.findAll({
+            offset:req.query.a,
+            limit: c,
+         
+            include:[
+                {model:poolFotoWajah, required:false},
+                // {model:poolPenyakit, where: {PenyakitId:  {
+                //          [Op.ne]: null
+                //     }}, required:false,include: {model: penyakit, paranoid:false}},
+
+                //     {model:poolPernyataan,where: {pernyataanId:  {
+                //         [Op.ne]: null
+                //    }},
+                //    required:false, include:{model:pernyataan, required:false}},
+
+                //           {model:poolGejalaPsikis, where: {GejalaPsikiId:  {
+                //         [Op.ne]: null
+                //    }},required:false,include:{model: gejalaPsikis, paranoid:false}},
+
+                    // {model:poolGejalaFisik,
+                    //     where: {GejalaFisikId:  {
+                    //         [Op.ne]: null
+                    //    }},required:false, include:{model: gejalaFisik, paranoid:false}},
+
+                    {model:poolGejalaPerilaku,
+                        where: {GejalaPerilakuBurukId:  {
+                            [Op.ne]: null
+                       }},required:false, include:{model: gejalaPerilaku, paranoid:false}},
+
+             
+
+                   ]
+        })
+        .then(respon=>{
+            // res.json(respon)
+            // console.log(respon)
+            res.render('print', {respon, a:req.query.a, b: req.query.b})
+        })
+        .catch(err=>{
+            res.json(err)
+        })
+    }
+
+    static count(req, res){
+        pasienModel.count()
+          .then(function(count) {
+              res.json({jml: count})
+          });
+    }
 
     static register(req, res){
          pasienModel.create(req.body, {returning: true}).then(respon =>{

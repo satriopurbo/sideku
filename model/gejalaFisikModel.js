@@ -12,6 +12,9 @@ const gejalaFisik = sq.define('GejalaFisik',{
          defaultValue:''
     }
 },
+{
+    paranoid: true
+}
 );
 
 gejalaFisik.sync({ alter: true })

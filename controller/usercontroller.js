@@ -31,7 +31,7 @@ class Controller{
 
     static login(req,res){
         const{username,password}= req.body
-
+        console.log(req.body)
         userModel.findAll({
             where:{
                 username:username

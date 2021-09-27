@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sq =  require('../connection');
 
+
 const pernyataan = sq.define('pernyataan',{
     id:{
         type: DataTypes.INTEGER,
@@ -12,6 +13,9 @@ const pernyataan = sq.define('pernyataan',{
          defaultValue:''
     }
 },
+{
+    paranoid: true
+}
 );
 
 pernyataan.sync({ alter: true })
