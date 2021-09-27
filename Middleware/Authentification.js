@@ -5,8 +5,8 @@ const pasien = require('../model/pasienModel')
 
 function authentification(req,res,next){
     
-    
  const decode = verifyToken(req.headers.accesstoken)
+ 
  console.log(decode);
     if(decode.role=="Pasien"){
         pasien.findAll({
