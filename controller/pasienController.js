@@ -10,7 +10,34 @@ const gejalaPsikis = require('../model/gejalaPsikisModel')
 const poolGejalaPsikis = require('../model/poolGejalaPsikis')
 const poolPernyataan = require('../model/poolPernyataanModel')
 const pernyataan = require('../model/pernyataanModel')
+const poolODGJ= require('../model/poolODGJModel')
+const bcrypt = require('../helper/bcrypt')
+const jwt = require('../helper/jwt')
 var {Op} = require('sequelize');
+// async function isiUsername(){
+//     let encryptedPassword = bcrypt.hashPassword('fosan')
+//     for(let i=0;i<2660;i++){
+//         pasienModel.findAll({where:{
+//             id:i
+//         }})
+//         .then(hasil=>{
+//             if(hasil.length){
+//                 pasienModel.update({
+//                     username:`side${i}`,
+//                     password:encryptedPassword
+//                 },{
+//                     where:{
+//                         id:i
+//                     }
+//                 })
+//             }
+//         })
+//         .catch(err=>{
+//            console.log(err)
+//         })
+//     }
+// }
+// isiUsername()
 
 
 class Controller{
@@ -71,13 +98,53 @@ class Controller{
     }
 
     static register(req, res){
-         pasienModel.create(req.body, {returning: true}).then(respon =>{
-           res.json(respon)
-        })
-        .catch(err=>{
-            res.json(err)
+        const {username,password,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien}=req.body
+        let encryptedPassword = bcrypt.hashPassword(password)
+        pasienModel.findAll({where:{
+            username:username
+        }})
+        .then(hasil=>{
+            
+           if(hasil.length){
+               res.json({message:"username sudah terdaftar"})
+           }
+           else{
+               pasienModel.create({username,password:encryptedPassword,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien})
+               .then(hasil2=>{
+                poolODGJ.create({pasienId:hasil2.dataValues.id})
+                .then(hasil3=>{
+                    res.json({message:"sukses"})
+                })
+               })
+           }
         })
       }
+
+      static login(req,res){
+        const{username,password}= req.body
+
+        pasienModel.findAll({
+            where:{
+                username:username
+            }
+        })
+        .then(data=>{
+            if(data.length){
+            
+        let hasil =  bcrypt.compare(password, data[0].dataValues.password);
+                if(hasil){
+                    res.json({token : jwt.generateToken(data[0].dataValues),id:data[0].id})
+                }
+                else{
+                    res.json({message : "password salah"})
+                }
+            }
+            else{res.json({message :"username tidak terdaftar"})}
+        })
+        .catch(err=>{
+            res.json({message : err})
+        })
+    }
     
     static list(req,res){
         const{id}=req.params
@@ -130,14 +197,10 @@ class Controller{
     
     static update(req,res){
         const {id}=req.params
-        const {nama,umur,tempatLahir,alamat,pekerjaan}= req.body
+        const {nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien}= req.body
         
         pasienModel.update({
-            nama:nama,
-            umur:umur,
-            tempatLahir : tempatLahir, 
-            alamat:alamat,
-            pekerjaan:pekerjaan
+            nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien
         },{
             where :{
                 id:id
@@ -153,6 +216,38 @@ class Controller{
         })
 
     }
+
+    static changePassword(req, res) {
+        const { passwordLama, passwordBaru } = req.body;
+        pasienModel
+          .findAll({
+            where: {
+              id: req.dataUsers.id,
+            },
+          })
+          .then((data) => {
+            let hasil = bcrypt.compare(passwordLama, data[0].dataValues.password);
+            if (hasil) {
+              let encryptedPassword = bcrypt.hashPassword(passwordBaru);
+              pasienModel
+                .update({ password: encryptedPassword },
+                  {
+                    where: {
+                      id: req.dataUsers.id,
+                    },
+                  }
+                )
+                .then((data2) => {
+                    res.status(200).json({ status: 200, message: "password berhasil di rubah"})
+                });
+            } else {
+                res.status(200).json({ status: 200, message: "password salah"})
+            }
+          })
+          .catch((err) => {
+            res.status(500).json({ status: 500, message: "gagal", data: err})
+          });
+      }
 
     static delete(req,res){
         const{id}= req.params

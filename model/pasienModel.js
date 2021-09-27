@@ -7,6 +7,12 @@ const Pasien = sq.define('pasien',{
         primaryKey: true,
         autoIncrement: true
     },
+    username:{
+        type:DataTypes.STRING
+    },
+    password:{
+        type:DataTypes.STRING
+    },
     nama:{
         type:DataTypes.STRING,
          defaultValue:''
@@ -15,7 +21,7 @@ const Pasien = sq.define('pasien',{
         type:DataTypes.DATE,
         defaultValue:0
     },
-   tempatLahir:{
+    tempatLahir:{
         type:DataTypes.STRING,
         defaultValue:''
     },
@@ -23,13 +29,24 @@ const Pasien = sq.define('pasien',{
         type:DataTypes.STRING,
         defaultValue:''
     },
-   pekerjaan:{
+    pekerjaan:{
         type:DataTypes.STRING,
         defaultValue:''
     },
-},
-{
-    paranoid: true
+  
+    pendidikanPasien:{
+        type:DataTypes.STRING
+    },
+    lamaPerawatan:{
+        type:DataTypes.INTEGER
+    },
+    penanggungJawabPasien:{
+        type:DataTypes.STRING
+    },
+    role:{
+        type:DataTypes.STRING,
+        defaultValue:"Pasien"
+    }
 })
 
 Pasien.sync({ alter: true })

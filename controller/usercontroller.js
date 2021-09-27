@@ -35,7 +35,7 @@ class Controller{
         userModel.findAll({
             where:{
                 username:username
-            },attributes: ['password']
+            }
         })
         .then(data=>{
             if(data.length){
