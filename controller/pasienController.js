@@ -14,6 +14,7 @@ const poolODGJ= require('../model/poolODGJModel')
 const bcrypt = require('../helper/bcrypt')
 const jwt = require('../helper/jwt')
 var {Op} = require('sequelize');
+const sq = require('../connection')
 // async function isiUsername(){
 //     let encryptedPassword = bcrypt.hashPassword('fosan')
 //     for(let i=0;i<2660;i++){
@@ -97,11 +98,28 @@ class Controller{
           });
     }
 
-    static register(req, res){
+    static async register(req, res){
         const {username,password,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien}=req.body
-        let encryptedPassword = bcrypt.hashPassword(password)
+        let encryptedPassword=""
+        let max = await sq.query(`select max(id) from pasiens`)
+      
+        let username2 = ""
+       if(password){
+        encryptedPassword = bcrypt.hashPassword(password)
+        }
+        else{
+        encryptedPassword = bcrypt.hashPassword('fosan')  
+        }
+        if(username){
+            username2=username
+        }
+        else{
+            username2 = `${max[0][0]["max"]+1}`
+        }
+
+    
         pasienModel.findAll({where:{
-            username:username
+            username:username2
         }})
         .then(hasil=>{
             
@@ -109,7 +127,7 @@ class Controller{
                res.json({message:"username sudah terdaftar"})
            }
            else{
-               pasienModel.create({username,password:encryptedPassword,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien})
+               pasienModel.create({username:username2,password:encryptedPassword,nama,tanggalLahir,tempatLahir,alamat,pekerjaan,pendidikanPasien,lamaPerawatan,penanggungJawabPasien})
                .then(hasil2=>{
                 poolODGJ.create({pasienId:hasil2.dataValues.id})
                 .then(hasil3=>{
