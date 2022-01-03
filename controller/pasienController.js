@@ -131,7 +131,7 @@ class Controller{
                .then(hasil2=>{
                 poolODGJ.create({pasienId:hasil2.dataValues.id})
                 .then(hasil3=>{
-                    res.json({message:"sukses"})
+                    res.json({message:"sukses",pasienId:hasil2.dataValues.id})
                 })
                })
            }
